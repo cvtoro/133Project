@@ -1,4 +1,3 @@
-
 <?php $SELECT=  $_POST["SELECT"]; 
     $FROM = $_POST['FROM'];
 
@@ -50,45 +49,13 @@
         }
 
     
-    echo $query;
+    // echo "<p id = 'Query'> Query submitted: ". $query."</p>";
 
     // $password = NULL;
 
 
-
-    try{
-        // Create connection
-        $conn = new mysqli($servername, $username, $password, $dbname);
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        } 
-
-        $result = mysqli_query($conn, $query);
-        if (!($result = mysqli_query($conn, $query))){
-          echo("<br>Sorry could not process your query <br> " . mysqli_error($conn));
-        }
-
-        else{
-            $data = array();
-            while ($row = mysqli_fetch_array($result, MYSQL_ASSOC)) {
-                array_push($data, $row);
-                // print_r($row);
-
-                // echo '<br>';
-            }
-            echo json_encode($data); 
-        }
-
-    }
-    catch (mysqli_sql_exception $e){
-            throw new MySQLiQueryException($SQL, $e->getMessage(), $e->getCode());
-
-    }
-
-    //Close connection
-    mysqli_close($conn);
 ?>
+
 
 
 
@@ -104,7 +71,7 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" type="text/css" href="./css/main.css">
+        <link rel="stylesheet" type="text/css" href="./css/queryPage.css">
 
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -116,7 +83,7 @@
     <body>
 
 
-       <!--  <nav class="navbar navbar-inverse  navbar-fixed-top">
+        <nav class="navbar navbar-inverse  navbar-fixed-top">
           <div class="container-fluid">
             <div class="navbar-header">
               <a class="navbar-brand" href="#">DBLP Modeling</a>
@@ -124,30 +91,120 @@
             <div>
 
           </div>
-        </nav>   --> 
-
-  <!--       <div class="jumbotron text-center">
-            <h1>DBLP Explorer</h1>
-            <p>Submit query below.</p>
-        </div> -->
-<!--         <div class="container text-center">
+        </nav>   
 
 
-            <br><br>
-            <table id = 'table' class="table table-bordered" >
-                <tr class = 'schema'>
-                </tr>
-            </table>
 
-            <br><br>
+<!--         <div class="container">
+          <h2>Basic Table</h2>
+          <p>The .table class adds basic styling (light padding and only horizontal dividers) to a table:</p>            
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Email</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>John</td>
+                <td>Doe</td>
+                <td>john@example.com</td>
+              </tr>
+              <tr>
+                <td>Mary</td>
+                <td>Moe</td>
+                <td>mary@example.com</td>
+              </tr>
+              <tr>
+                <td>July</td>
+                <td>Dooley</td>
+                <td>july@example.com</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+ -->
+
+        <div class="container1">
+         <?php 
+         echo "<p class='bg-success'> Query submitted: ". $query."</p>";
+
+        try{
+            // Create connection
+            $conn = new mysqli($servername, $username, $password, $dbname);
+            // Check connection
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            } 
+
+            $result = mysqli_query($conn, $query);
+            if (!($result = mysqli_query($conn, $query))){
+              echo("<p class = 'bg-warning'>Sorry could not process your query </p>" . mysqli_error($conn));
+            }
+     
+            else{
+              $data = array();
+              $fields = mysqli_fetch_fields ( $result );
+
+              $length = count($fields);
+              // echo gettype($fields);
+              echo ("<div class='container'><h2>Results</h2>
+                        
+              <table class='table'>
+                <thead>
+                  <tr>");
+              for ($i = 0; $i < $length; $i++) {
+                    echo "<th>".  $fields[$i]->name . "</th>";
+              }
+ 
+    
+            echo "</tr>
+            </thead>
+            <tbody>
+            ";
+
+       
+ 
+          
+                while ($row = mysqli_fetch_array($result, MYSQL_ASSOC)) {
+
+                    array_push($data, $row);
+                    // print_r($row);
 
 
-            <form action = 'query.php'>
+                    echo "<tr>";
+                    for ($i = 0; $i < $length; $i++) {
+                        echo ("<td>" . $row[$fields[$i]->name] . "</td>"); //make less specific to that one attribute
 
-             <button type="submit" class="btn btn-default">Submit</button>
-            </form>
-        </div> -->
-   
+                    }
+                    echo "</tr>";
+                }
+
+
+                echo "</tbody>
+                    </table>
+                    </div>";
+                json_encode($data); 
+            }
+
+        }
+        catch (mysqli_sql_exception $e){
+                throw new MySQLiQueryException($SQL, $e->getMessage(), $e->getCode());
+
+        }
+
+        //Close connection
+        mysqli_close($conn);
+        ?>
+
+        </div>
+     
+
+
 
     </body>
 </html>
+
+

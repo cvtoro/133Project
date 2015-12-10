@@ -1,0 +1,14 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+#query{
+	color:blue;
+	
+}
+body{
+	padding-top: 65px;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 50px;
+}
+/*.container1 p{
+	color: blue;
+}
+*/
