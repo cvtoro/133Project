@@ -73,10 +73,14 @@
         }
 
         else{
+            $data = array();
             while ($row = mysqli_fetch_array($result, MYSQL_ASSOC)) {
-                print_r($row); 
-                echo '<br>';
+                array_push($data, $row);
+                // print_r($row);
+
+                // echo '<br>';
             }
+            echo json_encode($data); 
         }
 
     }
