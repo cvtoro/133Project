@@ -54,10 +54,7 @@
 
     // $password = NULL;
 
-    $dbname = "DBLP";
-    $servername = "localhost";       
-    $username = "Cecilia";         
-    $password = "helloagain";
+
 
     try{
         // Create connection
