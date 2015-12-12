@@ -53,7 +53,7 @@
           <!-- FROM , all dropdown for from go here-->
         <span class = 'pquery'><p>FROM </p></span>
                       <div class = 'fromSelect'>
-                          <select  id = "fromSelect" name = 'FROM[]' onchange = "changeAttributes(this.value)"; class = "form-control" form = 'entityForm'>
+                          <select  id = "fromSelect0" name = 'FROM[]' onchange = "changeAttributes(this.value)"; class = "form-control" form = 'entityForm'>
                               <option ></option>
                               <option>Article</option>
                               <option>Inproceddings</option>
@@ -112,12 +112,13 @@
 
         </div>  
         <script>
-      
+        fromSelId = 1;
 
         function fromJoin(){
+         
           
-          
-          $(".fromSelect").append("<select name = 'FROM[]' class = 'form-control' form = 'entityForm' onchange = 'changeAttributes(this.value)'> <option></option><option>Article</option><option>Inproceddings</option><option>Procedings</option><option>Book</option><option>InCollection</option><option>Phdthesis</option><option>Mastersthesis</option><option>Writes</option><option>Edits</option><option>Publishes</option> </select>");
+          $(".fromSelect").append("<select name = 'FROM[]' id ='fromSelect"+ fromSelId +"' class = 'form-control' form = 'entityForm' onchange = 'changeAttributes(this.value)'> <option></option><option>Article</option><option>Inproceddings</option><option>Procedings</option><option>Book</option><option>InCollection</option><option>Phdthesis</option><option>Mastersthesis</option><option>Writes</option><option>Edits</option><option>Publishes</option> </select>");
+          fromSelId++;
        
 
 
@@ -126,18 +127,23 @@
 
         attrOptions = ""; //all attribute options according to the selected tables
         newOptions = ""; //just the newly added attributes by most recent table selected
+       
+        selfJoinCount = 1;
         function changeAttributes(tableName){
          
-
+          //check that table hasn't already been selected
           // article is only table with a different schema so it is a special case
           if (attrOptions.indexOf(tableName+".Editor") <= -1 && tableName != ""){ //check if tablename is not in attrOptions
            newOptions = "";
-           if (tableName == "Article"){
+           // if (tableName == "Article"){
+           if (tableName.indexOf("Article") >= 0){
 
               
                 attrOptions += "<option>" +tableName+ ".Author</option><option>" +tableName +".Editor</option><option>"+tableName +".Publisher</option><option>"+tableName +".Title</option><option>"+tableName +".BookTitle</option><option>"+tableName +".Year</option><option>"+tableName +".Pages</option><option>"+tableName +".Address</option><option>"+tableName +".Journal</option><option>"+tableName +".Volume</option><option>"+tableName +".Number</option><option>"+tableName +".Month</option><option>"+tableName +".url</option><option>"+tableName +".ee</option><option>"+tableName +".cdrom</option><option>"+tableName +".cite</option><option>"+tableName +".Note</option><option>"+tableName +".Crossref</option><option>"+tableName +".ISBN</option><option>"+tableName +".Series</option><option>"+tableName +".School</option><option>"+tableName +".Chapter</option><option>"+tableName +".Write</option><option>"+tableName +".Edits</option><option>"+tableName +".key</option><option>"+tableName +".mdate</option><option>"+tableName +".publtype</option><option>"+tableName +".reviewid</option><option>"+tableName +".rating</option>";
 
+
                 newOptions += "<option>" +tableName+ ".Author</option><option>" +tableName +".Editor</option><option>"+tableName +".Publisher</option><option>"+tableName +".Title</option><option>"+tableName +".BookTitle</option><option>"+tableName +".Year</option><option>"+tableName +".Pages</option><option>"+tableName +".Address</option><option>"+tableName +".Journal</option><option>"+tableName +".Volume</option><option>"+tableName +".Number</option><option>"+tableName +".Month</option><option>"+tableName +".url</option><option>"+tableName +".ee</option><option>"+tableName +".cdrom</option><option>"+tableName +".cite</option><option>"+tableName +".Note</option><option>"+tableName +".Crossref</option><option>"+tableName +".ISBN</option><option>"+tableName +".Series</option><option>"+tableName +".School</option><option>"+tableName +".Chapter</option><option>"+tableName +".Write</option><option>"+tableName +".Edits</option><option>"+tableName +".key</option><option>"+tableName +".mdate</option><option>"+tableName +".publtype</option><option>"+tableName +".reviewid</option><option>"+tableName +".rating</option>";
+
 
 
                 
@@ -149,19 +155,90 @@
 
               newOptions += "<option>" +tableName+ ".Author</option><option>" +tableName +".Editor</option><option>"+tableName +".Publisher</option><option>"+tableName +".Title</option><option>"+tableName + ".BookTitle</option><option>"+tableName +".Year</option><option>"+tableName +".Pages</option><option>"+tableName +".Address</option><option>"+tableName +".Journal</option><option>"+tableName +".Volume</option><option>"+tableName +".Number</option><option>"+tableName +".Month</option><option>"+tableName +".url</option><option>"+tableName +".ee</option><option>"+tableName +".cdrom</option><option>"+tableName +".cite</option><option>"+tableName +".Note</option><option>"+tableName +".Crossref</option><option>"+tableName +".ISBN</option><option>"+tableName +".Series</option><option>"+tableName +".School</option><option>"+tableName +".Chapter</option><option>"+tableName +".Write</option><option>"+tableName +".Edits</option><option>"+tableName +".key</option><option>"+tableName +".mdate</option><option>"+tableName +".publtype</option>";
           }
-
+          // tableNames.push(tableName);
           changeDropdowns();
+
+
+
+        }
+        //table has already been selected
+        //self join condition
+
+
+        else{
+          changeTable = [];
+          var newVal;
+
+
+
+          //loop through each FROM dropdown
+            $(".fromSelect").children('select').each(function(){          
+              newVal = tableName + " "+tableName.charAt(0) + selfJoinCount;
+              nickName = tableName.charAt(0) + selfJoinCount;
+
+
+                //loop through all options
+                $("#"+this.id + "> option").each(function() {
+                    if($(this).text() == tableName) {
+                        changeTable.push(nickName);
+                        $(this).text(newVal);
+                        selfJoinCount++;
+                        newVal = tableName + " "+tableName.charAt(0) + selfJoinCount;  //also have to change other dropdowns, SELECT and WHERE!!
+                        
+
+                    }  
+
+                });
+
+
+ 
+
+            });
+            //change the select dropdown
+            for (i = 0; i < changeTable.length; i++) { 
+                changeAttributes(changeTable[i]);
+
+            }
+            deleteAttr(tableName, ".SELECT");
+
+
+
 
         }
 
 
       
       
+        }
+
+        //tablename to remove, and selector of dropdown to remove it from
+        function deleteAttr(tableName, selector){
+          
+
+
+          //before this..force it to create the dropdown?
+                $(selector).children('select').each(function(){
+                
+                      console.log(selector);
+                    //loop through all options
+                    $("#"+this.id + "> option").each(function() {
+
+                        if($(this).text().indexOf(tableName+".") >= 0) {
+                            $(this).remove();
+
+                        }  
+
+                    });
+
+               });
+
         }
 
         id = 0
         function addDropdown(){
+
           $(".SELECT").append("<select id = 'SELECT" + id +"'name = 'SELECT[]' class = 'form-control' form = 'entityForm'><option></option><option>*</option>" + attrOptions+ "</select>");
+
           id += 1;
         }
         function changeDropdowns(){
@@ -169,7 +246,7 @@
               // console.log(this.id);
               $("#" +this.id).append(newOptions);
           });
-              $('.WHERE').children('select').each(function () {
+          $('.WHERE').children('select').each(function () {
               // console.log(this.id);
               $("#" +this.id).append(newOptions);
           });

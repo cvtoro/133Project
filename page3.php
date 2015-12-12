@@ -48,10 +48,6 @@
 
         }
 
-    
-    // echo "<p id = 'Query'> Query submitted: ". $query."</p>";
-
-    // $password = NULL;
 
 
 ?>
@@ -95,41 +91,14 @@
 
 
 
-<!--         <div class="container">
-          <h2>Basic Table</h2>
-          <p>The .table class adds basic styling (light padding and only horizontal dividers) to a table:</p>            
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Email</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>John</td>
-                <td>Doe</td>
-                <td>john@example.com</td>
-              </tr>
-              <tr>
-                <td>Mary</td>
-                <td>Moe</td>
-                <td>mary@example.com</td>
-              </tr>
-              <tr>
-                <td>July</td>
-                <td>Dooley</td>
-                <td>july@example.com</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
- -->
-
         <div class="container1">
          <?php 
          echo "<p class='bg-success'> Query submitted: ". $query."</p>";
+
+        $dbname = "DBLP";
+        $servername = "localhost";       
+        $username = "Cecilia";         
+        $password = "change";
 
         try{
             // Create connection
@@ -145,25 +114,25 @@
             }
      
             else{
-              $data = array();
-              $fields = mysqli_fetch_fields ( $result );
+                  $data = array();
+                  $fields = mysqli_fetch_fields ( $result );
 
-              $length = count($fields);
-              // echo gettype($fields);
-              echo ("<div class='container'><h2>Results</h2>
-                        
-              <table class='table'>
-                <thead>
-                  <tr>");
-              for ($i = 0; $i < $length; $i++) {
-                    echo "<th>".  $fields[$i]->name . "</th>";
-              }
- 
-    
-            echo "</tr>
-            </thead>
-            <tbody>
-            ";
+                  $length = count($fields);
+                  // echo gettype($fields);
+                  echo ("<div class='container'><h2>Results</h2>
+                            
+                  <table class='table'>
+                    <thead>
+                      <tr>");
+                  for ($i = 0; $i < $length; $i++) {
+                        echo "<th>".  $fields[$i]->name . "</th>";
+                  }
+     
+        
+                echo "</tr>
+                </thead>
+                <tbody>
+                ";
 
        
  
@@ -171,12 +140,12 @@
                 while ($row = mysqli_fetch_array($result, MYSQL_ASSOC)) {
 
                     array_push($data, $row);
-                    // print_r($row);
+            
 
 
                     echo "<tr>";
                     for ($i = 0; $i < $length; $i++) {
-                        echo ("<td>" . $row[$fields[$i]->name] . "</td>"); //make less specific to that one attribute
+                        echo ("<td>" . $row[$fields[$i]->name] . "</td>"); 
 
                     }
                     echo "</tr>";
