@@ -95,11 +95,7 @@
          <?php 
          echo "<p class='bg-success'> Query submitted: ". $query."</p>";
 
-        $dbname = "DBLP";
-        $servername = "localhost";       
-        $username = "Cecilia";         
-        $password = "change";
-
+   
         try{
             // Create connection
             $conn = new mysqli($servername, $username, $password, $dbname);
@@ -110,7 +106,10 @@
 
             $result = mysqli_query($conn, $query);
             if (!($result = mysqli_query($conn, $query))){
-              echo("<p class = 'bg-warning'>Sorry could not process your query </p>" . mysqli_error($conn));
+              echo("<p class = 'bg-warning'>Sorry could not process your query <br> Redirecting..</p>" );
+                //redirect
+
+                header( "refresh:4;url=page2.html" );
             }
      
             else{

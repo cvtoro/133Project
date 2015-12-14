@@ -113,18 +113,13 @@
         </div>  
         <script>
         fromSelId = 1;
-
         function fromJoin(){
          
           
           $(".fromSelect").append("<select name = 'FROM[]' id ='fromSelect"+ fromSelId +"' class = 'form-control' form = 'entityForm' onchange = 'changeAttributes(this.value)'> <option></option><option>Article</option><option>Inproceddings</option><option>Procedings</option><option>Book</option><option>InCollection</option><option>Phdthesis</option><option>Mastersthesis</option><option>Writes</option><option>Edits</option><option>Publishes</option> </select>");
           fromSelId++;
        
-
-
         }
-
-
         attrOptions = ""; //all attribute options according to the selected tables
         newOptions = ""; //just the newly added attributes by most recent table selected
        
@@ -137,46 +132,27 @@
            newOptions = "";
            // if (tableName == "Article"){
            if (tableName.indexOf("Article") >= 0){
-
               
                 attrOptions += "<option>" +tableName+ ".Author</option><option>" +tableName +".Editor</option><option>"+tableName +".Publisher</option><option>"+tableName +".Title</option><option>"+tableName +".BookTitle</option><option>"+tableName +".Year</option><option>"+tableName +".Pages</option><option>"+tableName +".Address</option><option>"+tableName +".Journal</option><option>"+tableName +".Volume</option><option>"+tableName +".Number</option><option>"+tableName +".Month</option><option>"+tableName +".url</option><option>"+tableName +".ee</option><option>"+tableName +".cdrom</option><option>"+tableName +".cite</option><option>"+tableName +".Note</option><option>"+tableName +".Crossref</option><option>"+tableName +".ISBN</option><option>"+tableName +".Series</option><option>"+tableName +".School</option><option>"+tableName +".Chapter</option><option>"+tableName +".Write</option><option>"+tableName +".Edits</option><option>"+tableName +".key</option><option>"+tableName +".mdate</option><option>"+tableName +".publtype</option><option>"+tableName +".reviewid</option><option>"+tableName +".rating</option>";
-
-
                 newOptions += "<option>" +tableName+ ".Author</option><option>" +tableName +".Editor</option><option>"+tableName +".Publisher</option><option>"+tableName +".Title</option><option>"+tableName +".BookTitle</option><option>"+tableName +".Year</option><option>"+tableName +".Pages</option><option>"+tableName +".Address</option><option>"+tableName +".Journal</option><option>"+tableName +".Volume</option><option>"+tableName +".Number</option><option>"+tableName +".Month</option><option>"+tableName +".url</option><option>"+tableName +".ee</option><option>"+tableName +".cdrom</option><option>"+tableName +".cite</option><option>"+tableName +".Note</option><option>"+tableName +".Crossref</option><option>"+tableName +".ISBN</option><option>"+tableName +".Series</option><option>"+tableName +".School</option><option>"+tableName +".Chapter</option><option>"+tableName +".Write</option><option>"+tableName +".Edits</option><option>"+tableName +".key</option><option>"+tableName +".mdate</option><option>"+tableName +".publtype</option><option>"+tableName +".reviewid</option><option>"+tableName +".rating</option>";
-
-
-
                 
-
           }
-
           else{
               attrOptions += "<option>" +tableName+ ".Author</option><option>" +tableName +".Editor</option><option>"+tableName +".Publisher</option><option>"+tableName +".Title</option><option>"+tableName + ".BookTitle</option><option>"+tableName +".Year</option><option>"+tableName +".Pages</option><option>"+tableName +".Address</option><option>"+tableName +".Journal</option><option>"+tableName +".Volume</option><option>"+tableName +".Number</option><option>"+tableName +".Month</option><option>"+tableName +".url</option><option>"+tableName +".ee</option><option>"+tableName +".cdrom</option><option>"+tableName +".cite</option><option>"+tableName +".Note</option><option>"+tableName +".Crossref</option><option>"+tableName +".ISBN</option><option>"+tableName +".Series</option><option>"+tableName +".School</option><option>"+tableName +".Chapter</option><option>"+tableName +".Write</option><option>"+tableName +".Edits</option><option>"+tableName +".key</option><option>"+tableName +".mdate</option><option>"+tableName +".publtype</option>";
-
               newOptions += "<option>" +tableName+ ".Author</option><option>" +tableName +".Editor</option><option>"+tableName +".Publisher</option><option>"+tableName +".Title</option><option>"+tableName + ".BookTitle</option><option>"+tableName +".Year</option><option>"+tableName +".Pages</option><option>"+tableName +".Address</option><option>"+tableName +".Journal</option><option>"+tableName +".Volume</option><option>"+tableName +".Number</option><option>"+tableName +".Month</option><option>"+tableName +".url</option><option>"+tableName +".ee</option><option>"+tableName +".cdrom</option><option>"+tableName +".cite</option><option>"+tableName +".Note</option><option>"+tableName +".Crossref</option><option>"+tableName +".ISBN</option><option>"+tableName +".Series</option><option>"+tableName +".School</option><option>"+tableName +".Chapter</option><option>"+tableName +".Write</option><option>"+tableName +".Edits</option><option>"+tableName +".key</option><option>"+tableName +".mdate</option><option>"+tableName +".publtype</option>";
           }
           // tableNames.push(tableName);
           changeDropdowns();
-
-
-
         }
         //table has already been selected
         //self join condition
-
-
         else{
           changeTable = [];
           var newVal;
-
-
-
           //loop through each FROM dropdown
             $(".fromSelect").children('select').each(function(){          
               newVal = tableName + " "+tableName.charAt(0) + selfJoinCount;
               nickName = tableName.charAt(0) + selfJoinCount;
-
-
                 //loop through all options
                 $("#"+this.id + "> option").each(function() {
                     if($(this).text() == tableName) {
@@ -185,60 +161,39 @@
                         selfJoinCount++;
                         newVal = tableName + " "+tableName.charAt(0) + selfJoinCount;  //also have to change other dropdowns, SELECT and WHERE!!
                         
-
                     }  
-
                 });
-
-
  
-
             });
             //change the select dropdown
             for (i = 0; i < changeTable.length; i++) { 
                 changeAttributes(changeTable[i]);
-
             }
             deleteAttr(tableName, ".SELECT");
-
-
-
-
         }
-
-
       
       
         }
-
         //tablename to remove, and selector of dropdown to remove it from
         function deleteAttr(tableName, selector){
           
-
-
           //before this..force it to create the dropdown?
                 $(selector).children('select').each(function(){
                 
                       console.log(selector);
                     //loop through all options
                     $("#"+this.id + "> option").each(function() {
-
                         if($(this).text().indexOf(tableName+".") >= 0) {
                             $(this).remove();
-
                         }  
-
                     });
-
                });
-
         }
 
+        
         id = 0
         function addDropdown(){
-
           $(".SELECT").append("<select id = 'SELECT" + id +"'name = 'SELECT[]' class = 'form-control' form = 'entityForm'><option></option><option>*</option>" + attrOptions+ "</select>");
-
           id += 1;
         }
         function changeDropdowns(){
@@ -250,44 +205,31 @@
               // console.log(this.id);
               $("#" +this.id).append(newOptions);
           });
-
         }
         idW = 0;
         function addWhereDropdown(){
-
           $(".WHERE").append("<select id = '" + idW +"'name = 'WHERE[]' class = 'form-control' form = 'entityForm'><option></option>" + attrOptions + "</select><br>" );
           $(".WHERE").append("<select name = 'WHERE[]' class = 'form-control' form = 'entityForm'><option></option> <option> > </option> <option> < </option> <option> = </option> <option>!=</option>  <option>>=</option>  <option><=</option> <option>LIKE</option></select><br>" );
           idW +=1;
-
           $(".WHERE").append("<select onchange = 'checkForConstant(this.value, this.id)'; id = 'WhereSelect2" + idW +"' name = 'WHERE[]' class = 'form-control' form = 'entityForm'> <option></option><option>CONSTANT</option>" + attrOptions + "</select><br>" );
           $(".WHERE").append("<select name = 'WHERE[]' class = 'form-control' form = 'entityForm' ><option></option> <option>AND</option><option>OR</option></select><br>" );
           idW += 1;
-
         }
         function checkForConstant(selection, id){
           if (selection == "CONSTANT"){
               $("#"+id).replaceWith("<input name = 'WHERE[]' form = 'entityForm' ></input>");
           }
-
         }
-
-
         // check here for empty FROM field and empty SELECT field
-
         //  Bind the event handler to the "submit" JavaScript event
         function validateForm(){
-
                console.log($("#fromSelect").value );
-
-
             // Check if empty of not
             if ($("#fromSelect").val() === "" ) {
                //convert to dialog
                 alert('A table was not selected in FROM'); 
              
-
                 return false;
-
             }
         
             if(!(document.getElementById("SELECT0")) || $("#SELECT0").val() === "" ){ //eleement does not exist
@@ -295,17 +237,10 @@
                 alert("No field chosen in SELECT");
                 return false;
             }
-
           //loop through all where dropdowns looking for a malformed query there
-
-
               
    
-
         }
-
-
-
         </script>
     </body>
 </html>
