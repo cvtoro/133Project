@@ -11,6 +11,7 @@
 	$dbname = "DBLP";
     $servername = "localhost";       
 
+
     try{
         // Create connection
         $conn = new mysqli($servername, $username, $password, $dbname);
@@ -160,7 +161,7 @@ function truncate(str, maxLength, suffix) {
 	return str;
 }
 
-var margin = {top: 20, right: 300, bottom: 0, left: 200},
+var margin = {top: 20, right: 400, bottom: 0, left: 200},
 	width =  600,
 	height = 30000;
 
