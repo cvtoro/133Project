@@ -95,7 +95,9 @@
          <?php 
          echo "<p class='bg-success'> Query submitted: ". $query."</p>";
 
-
+        $dbname = "DBLP";
+        $servername = "localhost";       
+   
 
         try{
             // Create connection

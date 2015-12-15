@@ -8,7 +8,8 @@
 	$endYear = $_POST["endYr"];
 
 
-
+	$dbname = "DBLP";
+    $servername = "localhost";       
 
     try{
         // Create connection
@@ -44,7 +45,7 @@
         		$jrnl = $row['journal'];
         		$year = $row['year'];
 
-        		//a journal that has been seen before
+        		//a journal that has been seen before,
         		if ($jrnl == $prevjrnl || $jrnl == "distinctString" ){
         			$temp = [(int)$year, (int)$count];
         			$totalCount = $totalCount + $count;
@@ -55,7 +56,7 @@
 
         		}
 
-        		// a new journal not encountered
+        		// a new journal not encountered, write out to JSON file
         		else{
         			
         			
@@ -64,7 +65,7 @@
 					if (!(empty($article)) && !(empty($prevjrnl)) ){
 					$list = json_encode($article);
 					// echo $list . "<br>";
-					$json = $json . "{\"articles\":" . $list. ",\"total\": ".$totalCount. ",\"name\": \" ". $jrnl." \" },\n";
+					$json = $json . "{\"articles\":" . $list. ",\"total\": ".$totalCount. ",\"name\": \" ". $prevjrnl." \" },\n";
 					
 					}
 					$prevjrnl = $jrnl;
@@ -159,7 +160,7 @@ function truncate(str, maxLength, suffix) {
 	return str;
 }
 
-var margin = {top: 20, right: 200, bottom: 0, left: 200},
+var margin = {top: 20, right: 300, bottom: 0, left: 200},
 	width =  600,
 	height = 30000;
 
