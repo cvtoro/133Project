@@ -82,7 +82,7 @@
         <nav class="navbar navbar-inverse  navbar-fixed-top">
           <div class="container-fluid">
             <div class="navbar-header">
-              <a class="navbar-brand" href="#">DBLP Modeling</a>
+              <a class="navbar-brand" href="page2.html">DBLP Modeling</a>
             </div>
             <div>
 
@@ -95,7 +95,8 @@
          <?php 
          echo "<p class='bg-success'> Query submitted: ". $query."</p>";
 
-   
+
+
         try{
             // Create connection
             $conn = new mysqli($servername, $username, $password, $dbname);

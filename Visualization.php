@@ -9,6 +9,7 @@
 
 
 
+
     try{
         // Create connection
         $conn = new mysqli($servername, $username, $password, $dbname);
@@ -32,7 +33,7 @@
               
 
 				$json = "[";
-      
+      	  //fetch each journal
             while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 	
 			   $jrnl = $row['journal'];
@@ -49,6 +50,7 @@
 
 
 			    }
+			    //fetch the count of each year  
 				else{
 					$article = [];
 					$totalCount = 0;
@@ -106,9 +108,16 @@
 	?>
 
 <script src="//d3js.org/d3.v3.min.js"></script>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
 
 <style type="text/css">
+h1{
+	margin-top:10%;
+}
+#body{
+	/*margin-left: 300px;*/
+}
 body{font-family: Arial, sans-serif;font-size:10px;}
 .axis path,.axis line {fill: none;stroke:#b6b6b6;shape-rendering: crispEdges;}
 /*.tick line{fill:none;stroke:none;}*/
@@ -119,6 +128,21 @@ text.value{font-size:12px;font-weight:bold;}
 </style>
 </head>
 <body>
+	<div id = "body">
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+	      <div class="container-fluid">
+	        <div class="navbar-header">
+	          <a class="navbar-brand" href="#">DBLP Modeling</a>
+	        </div>
+
+	      </div>
+
+	    </nav>
+	<div class="container text-center" >
+		<h1>Number of Articles Per Journal Per Year</h1>
+		<h6>Each node represents how many articles were written that year for that journal</h6>
+		<br>
+	
 
 <script type="text/javascript">
 function truncate(str, maxLength, suffix) {
@@ -130,14 +154,16 @@ function truncate(str, maxLength, suffix) {
 	return str;
 }
 
-var margin = {top: 20, right: 200, bottom: 0, left: 20},
-	width = 300,
-	height = 10000;
+var margin = {top: 20, right: 200, bottom: 0, left: 200},
+	width = 600,
+	height = 15000;
 
 var start_year = <?php echo $beginYear ?>;
 	end_year =  <?php echo $endYear ?>;
 
-var c = d3.scale.category20c();
+// var c = d3.scale.category20c();
+var c = d3.scale.category20();
+
 
 var x = d3.scale.linear()
 	.range([0, width]);
@@ -210,7 +236,7 @@ d3.json("data.json", function(error, data) {
 			.attr("y", j*20+25)
 			.attr("x",width+20)
 			.attr("class","label")
-			.text(truncate(data[j]['name'],30,"..."))
+			.text(truncate(data[j]['name'],50,"..."))
 			.style("fill", function(d) { return c(j); })
 			.on("mouseover", mouseover)
 			.on("mouseout", mouseout);
@@ -242,6 +268,8 @@ d3.json("data.json", function(error, data) {
 
 
 </script>
+</div>
+
 
 </body>
 </html>

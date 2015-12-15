@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -56,8 +54,8 @@
                           <select  id = "fromSelect0" name = 'FROM[]' onchange = "changeAttributes(this.value)"; class = "form-control" form = 'entityForm'>
                               <option ></option>
                               <option>Article</option>
-                              <option>Inproceddings</option>
-                              <option>Procedings</option>
+                              <option>Inproceedings</option>
+                              <option>Proceedings</option>
                               <option>Book</option>
                               <option>InCollection</option>
                               <option>Phdthesis</option>
@@ -94,7 +92,8 @@
 
 
          </div>
-         <img onclick = 'addWhereDropdown()';  src="./images/add182.png"> <br>
+         <img onclick = 'addWhereDropdown()';  src="./images/add182.png">
+         <button onclick = "addParens()" type="button" class="btn btn-primary btn-xs">( )</button><br>
 
     
         </div>
@@ -220,6 +219,22 @@
               $("#"+id).replaceWith("<input name = 'WHERE[]' form = 'entityForm' ></input>");
           }
         }
+
+        function addParens(){
+        var len = $(".WHERE").children('div > select').length;
+        // len -= 1;
+
+        var children = $('.WHERE').children();
+        var firstDropdown = children.first().find("option:selected"); //the first child
+        var lastDropdown = children.eq(len).find("option:selected"); //the second to last child
+        firstDropdown.text('(' + firstDropdown.text() );
+        lastDropdown.text(lastDropdown.text() + ')');
+               
+          //append a parenthesis at the front
+         
+        }
+
+
         // check here for empty FROM field and empty SELECT field
         //  Bind the event handler to the "submit" JavaScript event
         function validateForm(){
