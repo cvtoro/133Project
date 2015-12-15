@@ -19,7 +19,7 @@
         } 
 
 
-        $query = "SELECT DISTINCT Article.journal FROM Article";
+        $query = "SELECT * FROM (SELECT Article.journal, Article.year, COUNT(*) FROM Article GROUP BY Article.journal, Article.year) as Journal WHERE Journal.year >= ". $beginYear . " and Journal.year <=" . $endYear;
 
         $result = mysqli_query($conn, $query);
         if (!($result = mysqli_query($conn, $query))){
@@ -30,52 +30,57 @@
         }
  
         else{
-              
 
-				$json = "[";
-      	  //fetch each journal
-            while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
-	
-			   $jrnl = $row['journal'];
-			   // echo $jrnl . "<br>";
-
-				$query2 = "SELECT Article.year, COUNT(*) FROM Article WHERE Article.journal = '". $jrnl . 
-						"' AND Article.year >= " . $beginYear. " AND Article.year <= ". $endYear . " GROUP BY Article.year";
-				// echo $query2 . "<br>";
-
-				$result2 = mysqli_query($conn, $query2);
-			    if (!($result2)){
-			              // echo(mysqli_error($conn) . "<br>" );
-			             
+        	$json = "[";
+        	$article = [];
+        	$totalCount = 0;
+        	$prevjrnl = "distinctString";
 
 
-			    }
-			    //fetch the count of each year  
-				else{
-					$article = [];
-					$totalCount = 0;
 
-					while($row2 = mysqli_fetch_array($result2,MYSQLI_ASSOC)){
+        	while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 
-						$year = $row2['year'];
-						$count = $row2['COUNT(*)'];
-						// echo $year . "<br>";
-						// echo $count . "<br>";
-						$temp = [(int)$year, (int)$count];
-						$totalCount = $totalCount + $count;
-						// echo $totalCount . "<br>";
-						array_push($article, $temp);
+        		$count = $row['COUNT(*)'];
+        		$jrnl = $row['journal'];
+        		$year = $row['year'];
 
-					}
-					
-					if (!(empty($article)) && !(empty($jrnl)) ){
+        		//a journal that has been seen before
+        		if ($jrnl == $prevjrnl || $jrnl == "distinctString" ){
+        			$temp = [(int)$year, (int)$count];
+        			$totalCount = $totalCount + $count;
+        			array_push($article, $temp);
+        			if($jrnl == "distinctString"){
+        				$prevjrnl = $jrnl;
+        			}
+
+        		}
+
+        		// a new journal not encountered
+        		else{
+        			
+        			
+        			
+
+					if (!(empty($article)) && !(empty($prevjrnl)) ){
 					$list = json_encode($article);
 					// echo $list . "<br>";
 					$json = $json . "{\"articles\":" . $list. ",\"total\": ".$totalCount. ",\"name\": \" ". $jrnl." \" },\n";
 					
 					}
-				}
-               
+					$prevjrnl = $jrnl;
+
+        			$article = [];
+        			$temp = [(int)$year, (int)$count];
+        			$totalCount = $totalCount + $count;
+        			array_push($article, $temp);
+
+        		}
+        	
+
+
+        	}
+   
+
 			 
 			}
 		
@@ -96,9 +101,9 @@
 
         }
 
-    }
+
     catch (mysqli_sql_exception $e){
-            throw new MySQLiQueryException($SQL, $e->getMessage(), $e->getCode());
+            // throw new MySQLiQueryException($SQL, $e->getMessage(), $e->getCode());
 
     }
 
@@ -155,11 +160,15 @@ function truncate(str, maxLength, suffix) {
 }
 
 var margin = {top: 20, right: 200, bottom: 0, left: 200},
-	width = 600,
-	height = 15000;
+	width =  600,
+	height = 30000;
 
 var start_year = <?php echo $beginYear ?>;
 	end_year =  <?php echo $endYear ?>;
+
+
+// var start_year = 2010;
+// 	end_year =  2013;
 
 // var c = d3.scale.category20c();
 var c = d3.scale.category20();
