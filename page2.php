@@ -115,78 +115,41 @@
 
         }
         attrOptions = ""; //all attribute options according to the selected tables
-        newOptions = ""; //just the newly added attributes by most recent table selected
 
         selfJoinCount = 1;
 
-        tables = [];
         function changeAttributes(tableName){
-
-            //check that table hasn't already been selected
-            if(tables.indexOf(tableName+".Editor") <= -1){
-                $.ajax({
-                  type: 'POST',
-                  url: "grabFields.php",
-                  data: { tableName: tableName },
-                  success: function(data)
-                            {
-                                attrOptions += data;
-                                newOptions = data;
-                                //appends new options to dropdowns that already exist
-                                changeDropdowns();
-                            }
-                });
-          }
+            tables = [];
 
 
 
 
-        //table has already been selected
-        //self join condition
-        else{
-          changeTable = [];
-          var newVal;
-          //loop through each FROM dropdown
+           //loop through each FROM dropdown, get the tableName
             $(".fromSelect").children('select').each(function(){
-              newVal = tableName + " "+tableName.charAt(0) + selfJoinCount;
-              nickName = tableName.charAt(0) + selfJoinCount;
-                //loop through all options
-                $("#"+this.id + "> option").each(function() {
-                    if($(this).text() == tableName) {
-                        changeTable.push(nickName);
-                        $(this).text(newVal);
-                        selfJoinCount++;
-                        newVal = tableName + " "+tableName.charAt(0) + selfJoinCount;  //also have to change other dropdowns, SELECT and WHERE!!
-
-                    }
-                });
+                var sel = $(this).find(':selected').val();
+                tables.push(sel);
 
             });
-            //change the select dropdown
-            for (i = 0; i < changeTable.length; i++) {
-                changeAttributes(changeTable[i]);
-            }
-            deleteAttr(tableName, ".SELECT");
-        }
 
 
-        }
-        //tablename to remove, and selector of dropdown to remove it from
-        function deleteAttr(tableName, selector){
 
-          //before this..force it to create the dropdown?
-                $(selector).children('select').each(function(){
 
-                      console.log(selector);
-                    //loop through all options
-                    $("#"+this.id + "> option").each(function() {
-                        if($(this).text().indexOf(tableName+".") >= 0) {
-                            $(this).remove();
+            $.ajax({
+              type: 'POST',
+              url: "grabFields.php",
+              data: { tableNames: tables },
+              success: function(data)
+                        {
+                            attrOptions = data;
+                            console.log(attrOptions);
+                            //update all dropdowns
+                            changeDropdowns();
                         }
-                    });
-               });
-        }
+            });
+          
 
+
+        }
 
         id = 0
         function addDropdown(){
@@ -194,14 +157,19 @@
           id += 1;
         }
         function changeDropdowns(){
-          console.log(newOptions);
+       
+
           $('.SELECT').children('select').each(function () {
+              $("#" +this.id).empty();
               // console.log(this.id);
-              $("#" +this.id).append(newOptions);
+              $("#" +this.id).append(attrOptions);
           });
+          
+
           $('.WHERE').children('select').each(function () {
+              $("#" +this.id).empty();
               // console.log(this.id);
-              $("#" +this.id).append(newOptions);
+              $("#" +this.id).append(attrOptions);
           });
         }
         idW = 0;

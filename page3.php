@@ -96,8 +96,7 @@
 
         $dbname = "DBLP";
         $servername = "localhost";
-        $username = "";
-        $password = "";
+      
 
         try{
             // Create connection

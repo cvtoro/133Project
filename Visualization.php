@@ -122,9 +122,7 @@
 h1{
 	margin-top:10%;
 }
-#body{
-	/*margin-left: 300px;*/
-}
+
 body{font-family: Arial, sans-serif;font-size:10px;}
 .axis path,.axis line {fill: none;stroke:#b6b6b6;shape-rendering: crispEdges;}
 /*.tick line{fill:none;stroke:none;}*/
