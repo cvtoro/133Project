@@ -97,6 +97,8 @@
 
         $dbname = "DBLP";
         $servername = "localhost";       
+        $username = ;         
+        $password = ;
 
         try{
             // Create connection
@@ -118,15 +120,19 @@
                   $data = array();
                   $fields = mysqli_fetch_fields ( $result );
 
-                  $length = count($fields);
+                  $length = count($result);
+                  $numResults = mysqli_num_rows ($result);
+
+                  echo "<p class='bg-success'>" . $numResults . " results. Displaying up to 500. </p>";
                   // echo gettype($fields);
                   echo ("<div class='container'><h2>Results</h2>
-                            
-                  <table class='table'>
+                        <table class='table'>
                     <thead>
                       <tr>");
                   for ($i = 0; $i < $length; $i++) {
-                        echo "<th>".  $fields[$i]->name . "</th>";
+                        $name = $fields[$i]->name;
+                        echo "<th>".  $name . "</th>";
+                        
                   }
      
         
@@ -137,19 +143,28 @@
 
        
  
-          
+                $cnt = 0;   
                 while ($row = mysqli_fetch_array($result, MYSQL_ASSOC)) {
+                    if($cnt > 499){
+                        break;
+                    }
 
                     array_push($data, $row);
             
 
 
                     echo "<tr>";
+                    //loop through fields
                     for ($i = 0; $i < $length; $i++) {
+                      
+
                         echo ("<td>" . $row[$fields[$i]->name] . "</td>"); 
+                        
 
                     }
                     echo "</tr>";
+
+                    $cnt++;
                 }
 
 

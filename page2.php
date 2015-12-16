@@ -63,20 +63,17 @@
                               <option>Writes</option>
                               <option>Edits</option>
                               <option>Publishes</option>
-                              <option>www</option>
+                              <option>Www</option>
+                              <option></option>
 
                           </select> 
-                          <!-- initially starts with these tables -->
 
-                          <!-- the function changeAttributes() is called when a table is selected,
-                           (function is defined below) 
-                           -->
+
                     </div>
 
                     <!-- the plus sign, calls a function defined below -->
                     <img onclick = 'fromJoin()'; id= 'fromPlus' src="./images/add182.png">
-<!--                     <span onclick = "" id  = 'minus' class="glyphicon glyphicon-minus-sign"></span> 
- -->                    <br> <br>
+                 <br> <br>
 
 
         <!-- WHERE , add dropdowns here-->
@@ -130,22 +127,21 @@
             //check that table hasn't already been selected
             if(tables.indexOf(tableName+".Editor") <= -1){
                 $.ajax({
-                 type: 'POST',
-                url: "grabFields.php",
-                data: { tableName: tableName },
-                success: function(data)
-                          {
-                              // console.log(data);
-                              attrOptions += data;
-                              newOptions = data;
-                              changeDropdowns();
-                              // console.log(newOptions);
-                          }
+                  type: 'POST',
+                  url: "grabFields.php",
+                  data: { tableName: tableName },
+                  success: function(data)
+                            {
+                                attrOptions += data;
+                                newOptions = data;
+                                //appends new options to dropdowns that already exist
+                                changeDropdowns();
+                            }
                 });
              
         
 
-              //appends new options to dropdowns that already exist
+          
 
               
           }
