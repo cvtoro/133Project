@@ -1,4 +1,4 @@
-<?php $SELECT=  $_POST["SELECT"]; 
+<?php $SELECT=  $_POST["SELECT"];
     $FROM = $_POST['FROM'];
 
 
@@ -20,7 +20,7 @@
     $index = 0;
     $query = $query . " FROM ";
     foreach ($FROM as $value) {
-       
+
         if ($index < $len){
             $query = $query . $value. ', ' ;
         }
@@ -32,7 +32,7 @@
     }
 
 
-  
+
 
 //check if something was sent for WHERE
         if (isset($_POST["WHERE"]) && !empty($_POST["WHERE"])) {
@@ -41,8 +41,7 @@
             if ($WHERE[0] != ""){
                 $query = $query . " WHERE ";
                 foreach ($WHERE as $value) {
-               
-                    $query = $query . $value;
+                    $query = $query . $value . " ";
                 }
             }
 
@@ -87,18 +86,18 @@
             <div>
 
           </div>
-        </nav>   
+        </nav>
 
 
 
         <div class="container1">
-         <?php 
+         <?php
          echo "<p class='bg-success'> Query submitted: ". $query."</p>";
 
         $dbname = "DBLP";
-        $servername = "localhost";       
-        $username = ;         
-        $password = ;
+        $servername = "localhost";
+        $username = "";
+        $password = "";
 
         try{
             // Create connection
@@ -106,7 +105,7 @@
             // Check connection
             if ($conn->connect_error) {
                 die("Connection failed: " . $conn->connect_error);
-            } 
+            }
 
             $result = mysqli_query($conn, $query);
             if (!($result = mysqli_query($conn, $query))){
@@ -115,12 +114,14 @@
 
                 header( "refresh:4;url=page2.html" );
             }
-     
+
             else{
                   $data = array();
                   $fields = mysqli_fetch_fields ( $result );
 
-                  $length = count($result);
+                  $length = count($fields); 
+                  echo $length;
+
                   $numResults = mysqli_num_rows ($result);
 
                   echo "<p class='bg-success'>" . $numResults . " results. Displaying up to 500. </p>";
@@ -132,34 +133,34 @@
                   for ($i = 0; $i < $length; $i++) {
                         $name = $fields[$i]->name;
                         echo "<th>".  $name . "</th>";
-                        
+
                   }
-     
-        
+
+
                 echo "</tr>
                 </thead>
                 <tbody>
                 ";
 
-       
- 
-                $cnt = 0;   
+
+
+                $cnt = 0;
                 while ($row = mysqli_fetch_array($result, MYSQL_ASSOC)) {
                     if($cnt > 499){
                         break;
                     }
 
                     array_push($data, $row);
-            
+
 
 
                     echo "<tr>";
                     //loop through fields
                     for ($i = 0; $i < $length; $i++) {
-                      
 
-                        echo ("<td>" . $row[$fields[$i]->name] . "</td>"); 
-                        
+
+                        echo ("<td>" . $row[$fields[$i]->name] . "</td>");
+
 
                     }
                     echo "</tr>";
@@ -171,7 +172,7 @@
                 echo "</tbody>
                     </table>
                     </div>";
-                json_encode($data); 
+                json_encode($data);
             }
 
         }
@@ -185,11 +186,9 @@
         ?>
 
         </div>
-     
+
 
 
 
     </body>
 </html>
-
-

@@ -1,13 +1,14 @@
-<?php 
+<?php
 
         $tableName = $_POST["tableName"];
-    // $tableName = "Article";
 
 
-           $query = "SELECT column_name FROM information_schema.columns WHERE table_schema = 'DBLP' AND table_name = 'Article' ";
+           $query = "SELECT column_name FROM information_schema.columns WHERE table_schema = 'DBLP' AND table_name = '$tableName'";
 
         $dbname = "DBLP";
-        $servername = "localhost";       
+        $servername = "localhost";
+        $username = "";
+        $password = "";
 
         try{
             // Create connection
@@ -15,23 +16,24 @@
             // Check connection
             if ($conn->connect_error) {
                 die("Connection failed: " . $conn->connect_error);
-            } 
+            }
 
             $result = mysqli_query($conn, $query);
             if (!($result = mysqli_query($conn, $query))){
-              echo("<p class = 'bg-warning'>Sorry could not process your query " );
+              echo("<p class = 'bg-warning'>Sorry could not process your query: $query</p>"  );
 
             }
-     
+
             else{
-                
+                echo "<option>" .  $tableName . ".* </option>";
+
                 $attrOptions = "";
                 while ($row = mysqli_fetch_array($result, MYSQL_ASSOC)) {
 
-                    
+
                     echo "<option>" .  $tableName . "." . $row['column_name'] . "</option>";
 
-                    
+
                 }
 
             }

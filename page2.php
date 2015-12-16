@@ -30,43 +30,41 @@
             <p>Submit query below.</p>
 
 
-        </div>  
-        
+        </div>
+
         <!-- THE SQL UI -->
 
 
-      
+
         <!-- this is a class for styling the UI in main.css..all styling goes there -->
-        <div class = 'queryform'> 
+        <div class = 'queryform'>
 
           <!-- SELECT , all dropwdown for select go here-->
           <!-- the <span> is just to help with styling -->
         <span class = 'pquery'><p >SELECT</p> </span>
-                <img 
+                <img
         <!-- all dropdown of SELECT will be appended to this div  -->
-        <div class = 'SELECT'></div> 
+        <div class = 'SELECT'></div>
         <img onclick = 'addDropdown()';  src="./images/add182.png">
 
-        <br> <br> 
+        <br> <br>
           <!-- FROM , all dropdown for from go here-->
         <span class = 'pquery'><p>FROM </p></span>
                       <div class = 'fromSelect'>
                           <select  id = "fromSelect0" name = 'FROM[]' onchange = "changeAttributes(this.value)"; class = "form-control" form = 'entityForm'>
-                              <option ></option>
+                              <option></option>
                               <option>Article</option>
                               <option>Inproceedings</option>
                               <option>Proceedings</option>
                               <option>Book</option>
-                              <option>InCollection</option>
-                              <option>Phdthesis</option>
-                              <option>Mastersthesis</option>
+                              <option>Incollection</option>
+                              <option>PhDThesis</option>
+                              <option>MastersThesis</option>
                               <option>Writes</option>
                               <option>Edits</option>
-                              <option>Publishes</option>
                               <option>Www</option>
-                              <option></option>
-
-                          </select> 
+                              <option>Person</option>
+                          </select>
 
 
                     </div>
@@ -78,12 +76,12 @@
 
         <!-- WHERE , add dropdowns here-->
 
-        <span class = 'pquery'><p>WHERE</p></span> 
+        <span class = 'pquery'><p>WHERE</p></span>
          <div class = "WHERE" >
-          
 
 
-          
+
+
 
 
 
@@ -92,7 +90,7 @@
          <img onclick = 'addWhereDropdown()';  src="./images/add182.png">
          <button onclick = "addParens()" type="button" class="btn btn-primary btn-xs">( )</button><br>
 
-    
+
         </div>
 
         <br><br>
@@ -103,27 +101,27 @@
       <div class="container text-center">
          <form  id = 'entityForm' action ='page3.php' method = 'post' onsubmit="return validateForm()" >
              <button type="submit" class="btn btn-default">Submit</button>
-        </form> 
+        </form>
 
 
-        </div>  
+        </div>
         <script>
         fromSelId = 1;
         function fromJoin(){
-         
-          
-          $(".fromSelect").append("<select name = 'FROM[]' id ='fromSelect"+ fromSelId +"' class = 'form-control' form = 'entityForm' onchange = 'changeAttributes(this.value)'> <option></option><option>Article</option><option>Inproceddings</option><option>Procedings</option><option>Book</option><option>InCollection</option><option>Phdthesis</option><option>Mastersthesis</option><option>Writes</option><option>Edits</option><option>Publishes</option> </select>");
+
+
+          $(".fromSelect").append("<select name = 'FROM[]' id ='fromSelect"+ fromSelId +"' class = 'form-control' form = 'entityForm' onchange = 'changeAttributes(this.value)'> <option></option><option>Article</option><option>Inproceedings</option><option>Proceedings</option><option>Book</option><option>Incollection</option><option>PhdThesis</option><option>MastersThesis</option><option>Writes</option><option>Edits</option><option>Www</option><option>Person</option> </select>");
           fromSelId++;
-       
+
         }
         attrOptions = ""; //all attribute options according to the selected tables
         newOptions = ""; //just the newly added attributes by most recent table selected
-       
+
         selfJoinCount = 1;
 
         tables = [];
         function changeAttributes(tableName){
-         
+
             //check that table hasn't already been selected
             if(tables.indexOf(tableName+".Editor") <= -1){
                 $.ajax({
@@ -138,16 +136,10 @@
                                 changeDropdowns();
                             }
                 });
-             
-        
-
-          
-
-              
           }
 
-       
-        
+
+
 
         //table has already been selected
         //self join condition
@@ -155,7 +147,7 @@
           changeTable = [];
           var newVal;
           //loop through each FROM dropdown
-            $(".fromSelect").children('select').each(function(){          
+            $(".fromSelect").children('select').each(function(){
               newVal = tableName + " "+tableName.charAt(0) + selfJoinCount;
               nickName = tableName.charAt(0) + selfJoinCount;
                 //loop through all options
@@ -165,40 +157,40 @@
                         $(this).text(newVal);
                         selfJoinCount++;
                         newVal = tableName + " "+tableName.charAt(0) + selfJoinCount;  //also have to change other dropdowns, SELECT and WHERE!!
-                        
-                    }  
+
+                    }
                 });
- 
+
             });
             //change the select dropdown
-            for (i = 0; i < changeTable.length; i++) { 
+            for (i = 0; i < changeTable.length; i++) {
                 changeAttributes(changeTable[i]);
             }
             deleteAttr(tableName, ".SELECT");
         }
-      
-      
+
+
         }
         //tablename to remove, and selector of dropdown to remove it from
         function deleteAttr(tableName, selector){
-          
+
           //before this..force it to create the dropdown?
                 $(selector).children('select').each(function(){
-                
+
                       console.log(selector);
                     //loop through all options
                     $("#"+this.id + "> option").each(function() {
                         if($(this).text().indexOf(tableName+".") >= 0) {
                             $(this).remove();
-                        }  
+                        }
                     });
                });
         }
 
-        
+
         id = 0
         function addDropdown(){
-          $(".SELECT").append("<select id = 'SELECT" + id +"'name = 'SELECT[]' class = 'form-control' form = 'entityForm'><option></option><option>*</option>" + attrOptions+ "</select>");
+          $(".SELECT").append("<select id = 'SELECT" + id +"'name = 'SELECT[]' class = 'form-control' form = 'entityForm'><option></option>" + attrOptions+ "</select>");
           id += 1;
         }
         function changeDropdowns(){
@@ -236,9 +228,9 @@
         var lastDropdown = children.eq(len).find("option:selected"); //the second to last child
         firstDropdown.text('(' + firstDropdown.text() );
         lastDropdown.text(lastDropdown.text() + ')');
-               
+
           //append a parenthesis at the front
-         
+
         }
 
 
@@ -249,19 +241,19 @@
             // Check if empty of not
             if ($("#fromSelect").val() === "" ) {
                //convert to dialog
-                alert('A table was not selected in FROM'); 
-             
+                alert('A table was not selected in FROM');
+
                 return false;
             }
-        
+
             if(!(document.getElementById("SELECT0")) || $("#SELECT0").val() === "" ){ //eleement does not exist
-          
+
                 alert("No field chosen in SELECT");
                 return false;
             }
           //loop through all where dropdowns looking for a malformed query there
-              
-   
+
+
         }
         </script>
     </body>
