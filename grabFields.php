@@ -5,7 +5,7 @@
 
         $dbname = "DBLP";
         $servername = "localhost";
- 
+     
         $tableNamesCount = array();
         //associative array with count of each table, for self joining
         foreach ($tableNames as $tableName){ 
@@ -75,7 +75,7 @@
                     
                     
                     $query = "SELECT column_name FROM information_schema.columns WHERE table_schema = 'DBLP' AND table_name = '$key'";
-
+                    
                     $tableName = $key[0] . $i;
                     try{
                         // Create connection
