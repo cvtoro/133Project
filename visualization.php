@@ -3,10 +3,10 @@
 <head>
     <?php
 
-	$beginYear = $_POST["beginYr"];
-	$endYear = $_POST["endYr"];
+    $beginYear = $_POST["beginYr"];
+    $endYear = $_POST["endYr"];
 
-	$dbname = "DBLP";
+    $dbname = "DBLP";
     $servername = "localhost";
 
     try{
@@ -26,45 +26,45 @@
         }
  
         else{
-        	$json = "[";
-        	$article = [];
-        	$totalCount = 0;
-        	$prevjrnl = "distinctString";
+            $json = "[";
+            $article = [];
+            $totalCount = 0;
+            $prevjrnl = "distinctString";
 
-        	// Loop through result rows and store in arrays.
-        	while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
+            // Loop through result rows and store in arrays.
+            while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 
-        		$count = $row['COUNT(*)'];
-        		$jrnl = $row['journal'];
-        		$year = $row['year'];
+                $count = $row['COUNT(*)'];
+                $jrnl = $row['journal'];
+                $year = $row['year'];
 
-        		// Journal has been seen before, so update its count.
-        		if ($jrnl == $prevjrnl || $jrnl == "distinctString" ){
-        			$temp = [(int)$year, (int)$count];
-        			$totalCount = $totalCount + $count;
-        			array_push($article, $temp);
-        			if($jrnl == "distinctString"){
-        				$prevjrnl = $jrnl;
-        			}
+                // Journal has been seen before, so update its count.
+                if ($jrnl == $prevjrnl || $jrnl == "distinctString" ){
+                    $temp = [(int)$year, (int)$count];
+                    $totalCount = $totalCount + $count;
+                    array_push($article, $temp);
+                    if($jrnl == "distinctString"){
+                        $prevjrnl = $jrnl;
+                    }
 
-        		}
+                }
 
-        		// Journal has not been seen before, so write it to the JSON file.
-        		else{
-					if (!(empty($article)) && !(empty($prevjrnl)) ){
-						$list = json_encode($article);
-						$json = $json . "{\"articles\":" . $list. ",\"total\": ".$totalCount. ",\"name\": \" ". $prevjrnl." \" },\n";
-					}
-					$prevjrnl = $jrnl;
+                // Journal has not been seen before, so write it to the JSON file.
+                else{
+                    if (!(empty($article)) && !(empty($prevjrnl)) ){
+                        $list = json_encode($article);
+                        $json = $json . "{\"articles\":" . $list. ",\"total\": ".$totalCount. ",\"name\": \" ". $prevjrnl." \" },\n";
+                    }
+                    $prevjrnl = $jrnl;
 
-        			$article = [];
-        			$temp = [(int)$year, (int)$count];
-        			$totalCount = $totalCount + $count;
-        			array_push($article, $temp);
-        		}
-        	}
-			}
-		   
+                    $article = [];
+                    $temp = [(int)$year, (int)$count];
+                    $totalCount = $totalCount + $count;
+                    array_push($article, $temp);
+                }
+            }
+            }
+           
             $json = rtrim($json, "\n");
             $json = rtrim($json, ",");
             $json .= "]";
@@ -80,7 +80,7 @@
     // Close the connection
     mysqli_close($conn); 
 
-	?>
+    ?>
 
         <script src="//d3js.org/d3.v3.min.js"></script>
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
