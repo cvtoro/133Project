@@ -5,8 +5,6 @@
 }
 .queryform select {
     width: 150px !important;
-    /*margin: 0 auto !important;*/
-    
     display: inline !important;
 }
 .queryform {
