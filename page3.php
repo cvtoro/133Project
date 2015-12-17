@@ -81,7 +81,7 @@
         <nav class="navbar navbar-inverse  navbar-fixed-top">
           <div class="container-fluid">
             <div class="navbar-header">
-              <a class="navbar-brand" href="page2.html">DBLP Modeling</a>
+              <a class="navbar-brand" href="index.html">DBLP Explorer</a>
             </div>
             <div>
 
@@ -96,7 +96,7 @@
 
         $dbname = "DBLP";
         $servername = "localhost";
-      
+ 
 
         try{
             // Create connection
@@ -111,7 +111,7 @@
               echo("<p class = 'bg-warning'>Sorry could not process your query <br> Redirecting..</p>" );
                 //redirect
 
-                header( "refresh:4;url=page2.html" );
+                header( "refresh:5;url=page2.php" );
             }
 
             else{

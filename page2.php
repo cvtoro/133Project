@@ -19,7 +19,7 @@
         <nav class="navbar navbar-inverse navbar-fixed-top">
           <div class="container-fluid">
             <div class="navbar-header">
-              <a class="navbar-brand" href="#">DBLP Modeling</a>
+              <a class="navbar-brand" href="index.html">DBLP Explorer</a>
             </div>
 
           </div>
@@ -88,7 +88,6 @@
 
          </div>
          <img onclick = 'addWhereDropdown()';  src="./images/add182.png">
-         <button onclick = "addParens()" type="button" class="btn btn-primary btn-xs">( )</button><br>
 
 
         </div>
@@ -116,24 +115,52 @@
         }
         attrOptions = ""; //all attribute options according to the selected tables
 
-        selfJoinCount = 1;
 
         function changeAttributes(tableName){
             tables = [];
+           
+            jnCount = 0;
 
 
 
-
-           //loop through each FROM dropdown, get the tableName
+           //loop through each FROM dropdown, get the tableName in array tables[]
             $(".fromSelect").children('select').each(function(){
-                var sel = $(this).find(':selected').val();
-                tables.push(sel);
+
+              var sel = $(this).find(':selected');
+               var tableName = $(this).find(':selected').val();
+               console.log(tableName);
+               //trying to add a duplicated table
+                if (tables.indexOf(tableName) > -1){
+
+                  tables.push(tableName); //push first
+                  //loop through from again
+                   $(".fromSelect").children('select').each(function(){
+
+                      var sel1 = $(this).find(':selected');
+                      var t = sel1.text();
+                      // console.log(sel1.text().split(" ")[0]);
+                      if (sel1.text().split(" ")[0] == tableName){
+                        jnCount++;
+                        sel1.text(tableName +" "+tableName[0]+jnCount);
+                      }
+
+                   });
+
+
+
+                }
+                else{
+                  tables.push(tableName);
+
+                }
+
+
 
             });
+            // console.log(tables);
 
 
-
-
+            //get the fields for each table using SQL
             $.ajax({
               type: 'POST',
               url: "grabFields.php",
@@ -141,14 +168,22 @@
               success: function(data)
                         {
                             attrOptions = data;
-                            console.log(attrOptions);
-                            //update all dropdowns
+                            // console.log(attrOptions);
+                            //update all dropdowns in WHERE and SELECT
                             changeDropdowns();
                         }
             });
+
+
+
+
           
 
 
+        }
+
+        function isInArray(value, array) {
+          return array.indexOf(value) > -1;
         }
 
         id = 0
@@ -161,23 +196,21 @@
 
           $('.SELECT').children('select').each(function () {
               $("#" +this.id).empty();
-              // console.log(this.id);
               $("#" +this.id).append(attrOptions);
           });
           
 
           $('.WHERE').children('select').each(function () {
               $("#" +this.id).empty();
-              // console.log(this.id);
               $("#" +this.id).append(attrOptions);
           });
         }
         idW = 0;
         function addWhereDropdown(){
-          $(".WHERE").append("<select id = '" + idW +"'name = 'WHERE[]' class = 'form-control' form = 'entityForm'><option></option>" + attrOptions + "</select><br>" );
+          $(".WHERE").append("<select id = 'WHERE" + idW +"'name = 'WHERE[]' class = 'form-control' form = 'entityForm'><option></option>" + attrOptions + "</select><br>" );
           $(".WHERE").append("<select name = 'WHERE[]' class = 'form-control' form = 'entityForm'><option></option> <option> > </option> <option> < </option> <option> = </option> <option>!=</option>  <option>>=</option>  <option><=</option> <option>LIKE</option></select><br>" );
           idW +=1;
-          $(".WHERE").append("<select onchange = 'checkForConstant(this.value, this.id)'; id = 'WhereSelect2" + idW +"' name = 'WHERE[]' class = 'form-control' form = 'entityForm'> <option></option><option>CONSTANT</option>" + attrOptions + "</select><br>" );
+          $(".WHERE").append("<select onchange = 'checkForConstant(this.value, this.id)'; id = 'WHERE2" + idW +"' name = 'WHERE[]' class = 'form-control' form = 'entityForm'> <option></option><option>CONSTANT</option>" + attrOptions + "</select><br>" );
           $(".WHERE").append("<select name = 'WHERE[]' class = 'form-control' form = 'entityForm' ><option></option> <option>AND</option><option>OR</option></select><br>" );
           idW += 1;
         }
@@ -187,25 +220,12 @@
           }
         }
 
-        function addParens(){
-        var len = $(".WHERE").children('div > select').length;
-        // len -= 1;
-
-        var children = $('.WHERE').children();
-        var firstDropdown = children.first().find("option:selected"); //the first child
-        var lastDropdown = children.eq(len).find("option:selected"); //the second to last child
-        firstDropdown.text('(' + firstDropdown.text() );
-        lastDropdown.text(lastDropdown.text() + ')');
-
-          //append a parenthesis at the front
-
-        }
-
+        
 
         // check here for empty FROM field and empty SELECT field
         //  Bind the event handler to the "submit" JavaScript event
         function validateForm(){
-               console.log($("#fromSelect").value );
+               
             // Check if empty of not
             if ($("#fromSelect").val() === "" ) {
                //convert to dialog

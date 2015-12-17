@@ -11,7 +11,6 @@
 	$dbname = "DBLP";
     $servername = "localhost";       
 
-
     try{
         // Create connection
         $conn = new mysqli($servername, $username, $password, $dbname);
@@ -137,7 +136,7 @@ text.value{font-size:12px;font-weight:bold;}
 		<nav class="navbar navbar-inverse navbar-fixed-top">
 	      <div class="container-fluid">
 	        <div class="navbar-header">
-	          <a class="navbar-brand" href="#">DBLP Modeling</a>
+              <a class="navbar-brand" href="index.html">DBLP Explorer</a>
 	        </div>
 
 	      </div>
