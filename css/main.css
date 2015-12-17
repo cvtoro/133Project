@@ -1,58 +1,47 @@
-.jumbotron{
-	background-color: #0099CC !important;
-	color: white !important;
-	padding: 100px 25px !important;
+.jumbotron {
+    background-color: #0099CC !important;
+    color: white !important;
+    padding: 100px 25px !important;
 }
-
-.queryform select{
-
-        width: 150px !important;
-        /*margin: 0 auto !important;*/
-        display: inline !important;
+.queryform select {
+    width: 150px !important;
+    /*margin: 0 auto !important;*/
+    
+    display: inline !important;
 }
-.queryform{
-
-	display: inline !important;
+.queryform {
+    display: inline !important;
 }
-.queryform p{
-
-	display: inline !important; 
+.queryform p {
+    display: inline !important;
 }
 .fromSelect {
-
-	display: inline-block !important;
+    display: inline-block !important;
 }
-.SELECT{
-	display: inline-block !important;
-
+.SELECT {
+    display: inline-block !important;
 }
-.WHERE{
-	display: inline-block !important;
-	vertical-align: top;
+.WHERE {
+    display: inline-block !important;
+    vertical-align: top;
 }
-.WHERE select{
-	width: 50px;
+.WHERE select {
+    width: 50px;
 }
-
-#minus{
-	display: inline !important;
+#minus {
+    display: inline !important;
 }
-
-
 .cp {
-	font-size: 10px !important;
+    font-size: 10px !important;
 }
-
-.queryform img{
-	display: inline !important;
+.queryform img {
+    display: inline !important;
 }
-.table{
-	margin-top: 10%;
+.table {
+    margin-top: 10%;
 }
-span.pquery{
-	margin-left: 40%;
-	display: inline-block !important;
-	width: 100px !important;
-	
-	
+span.pquery {
+    margin-left: 40%;
+    display: inline-block !important;
+    width: 100px !important;
 }
