@@ -159,7 +159,7 @@
                         left: 200
                     },
                     width = 600,
-                    height = 30000;
+                    height = 31000;
 
                 var start_year = <?php echo $beginYear ?>;
                 end_year = <?php echo $endYear ?>;

@@ -79,7 +79,6 @@
             echo "<p> Query submitted: " . $query . "</p>";
             $dbname     = "DBLP";
             $servername = "localhost";
-            $username = "lucas";
 
             try {
                 // Create connection.
