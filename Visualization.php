@@ -7,7 +7,7 @@
 	$endYear = $_POST["endYr"];
 
 	$dbname = "DBLP";
-    $servername = "localhost";       
+    $servername = "localhost";
 
     try{
         // Create connection.
@@ -130,7 +130,7 @@
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="index.html">DBLP Explorer</a>
+                    <a class="navbar-brand" href="index.php">DBLP Explorer</a>
                 </div>
 
             </div>

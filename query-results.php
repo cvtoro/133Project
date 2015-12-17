@@ -74,11 +74,12 @@
     </nav>
 
 
-    <div class="container1">
+    <div class="container-fluid">
         <?php
-            echo "<p class='bg-success'> Query submitted: " . $query . "</p>";
+            echo "<p> Query submitted: " . $query . "</p>";
             $dbname     = "DBLP";
             $servername = "localhost";
+            $username = "lucas";
 
             try {
                 // Create connection.
@@ -90,7 +91,7 @@
                 
                 $result = mysqli_query($conn, $query);
                 if (!($result = mysqli_query($conn, $query))) { // Error in query. Redirect.
-                    echo ("<p class = 'bg-warning'>Sorry! Could not process your query. <br> Redirecting..</p>");
+                    echo ("<p>Sorry! Could not process your query. <br> Redirecting..</p>");
                     header("refresh:5;url=custom-query.php");
                 }
                 
@@ -101,9 +102,9 @@
                     $length = count($fields);                    
                     $numResults = mysqli_num_rows($result);
                     
-                    echo "<p class='bg-success'>" . $numResults . " results. Displaying up to 500. </p>";
+                    echo "<p>" . $numResults . " results. Displaying up to 500. </p>";
 
-                    echo ("<div class='container'><h2>Results</h2>
+                    echo ("<div><h2>Results</h2>
                                     <table class='table'>
                                 <thead>
                                   <tr>");
