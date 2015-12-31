@@ -159,7 +159,7 @@
                         left: 200
                     },
                     width = 600,
-                    height = 30000;
+                    height = 31000;
 
                 var start_year = <?php echo $beginYear ?>;
                 end_year = <?php echo $endYear ?>;
@@ -203,7 +203,6 @@
                     for (var j = 0; j < len; j++) {
 
                         try {
-                            console.log(data[j]);
                             var g = svg.append("g").attr("class", "journal");
 
                             var circles = g.selectAll("circle")
@@ -262,7 +261,6 @@
 
 
                         } catch (err) {
-                            console.log(err);
                             continue;
                         }
                     };
